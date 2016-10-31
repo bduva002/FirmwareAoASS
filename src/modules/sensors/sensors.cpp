@@ -2205,8 +2205,8 @@ Sensors::rc_poll()
 						   _parameters.rc_trans_th, _parameters.rc_trans_inv);
 			manual.gear_switch = get_rc_sw2pos_position(rc_channels_s::RC_CHANNELS_FUNCTION_GEAR,
 					     _parameters.rc_gear_th, _parameters.rc_gear_inv);
-			manual.sysid_switch = get_rc_sw2pos_position(rc_channels_s::RC_CHANNELS_FUNCTION_SYSIDSWITCH, _parameters.rc
-								     _parameters.rc_sysid_inv); //ADDED BY DEAFRO
+			manual.sysid_switch = get_rc_sw2pos_position(rc_channels_s::RC_CHANNELS_FUNCTION_SYSIDSWITCH, 
+								     _parameters.rc_parameters.rc_sysid_inv); //ADDED BY DEAFRO
 			
 			/* Check for sysID manoeuvres */ //ADDED BY DEAFRO
 			check_sysid_manoeuvre(&manual);
@@ -2553,6 +2553,65 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 	static uint64_t starting_time = 0;
 	static int _prev_sysid_sw_pos = manual_control_setpoint_s::SWITCH_POS_OFF;
 	static const float tau = 6.2832f;
+	
+	if ((manual->sysid_switch == manual_control_setpoint_s::SWITCH_POS_ON)
+	    && (manual->sysid_switch != _prev_sysid_sw_pos)) {
+		is_doing_manoeuvre = !is_doing_manoeuvre;
+		starting_time = hrt_absolute_time();
+		mavlink_and_console_log_info(&_mavlink_log_pub, "sid manoeuvre started");
+	}
+	
+	if (!vcontrol_mode.flag_control_manual_enabled) {
+		is_doing_manoeuvre = false;
+	}
+	
+	if (is_doing_manoeuvre) {
+		float dt = static_cast<float>(hrt_absolute_time() - starting_time) / 1e6f; //calculate dt in seconds
+		float actual_ramp_time = fabsf(_parameters.sid_amplitude) * _parameters.sid_ramp_slope;
+		
+		if (dt > _parameters.sid_on_time + _parameters.sid_trim_time_b + _parameters_sid_trim_time_a + 2 * actual_ramp*time) {
+			is_doing_manoeuvre = false;
+			
+		}else {
+			switch (_parameters.sid_manoeuvre) {
+			//step in roll
+				case 1:
+					if (dt < _parameters.sid_trim_time_b
+					    || dt > _parameters.sid_on_time + _parameters.sid_trim_time_b + 2.0f * actual_ramp_time) {
+						manual->y = 0.0f;
+					} else if (dt < _parameters.sid_trim_time_b + actual_ramp_time && actual_ramp_time > 0.1f) {
+						float progress = (dt - _parameters.dis_trim_time_b) / actual_ramp_time;
+						manual->y = _parameters.sid_amplitude * (1.0f - progress);
+						
+					}else {
+						manual->y = _parameters.sid_amplitude;
+					}
+					
+					break;
+			//step in pitch
+				case 2:
+					if (dt < _parameters.sid_trim_time_b
+					    || dt > _paramters.sid_on_time + _parameters.sid_tim_time_b + 2.0f * actual_ramp_time) {
+						manual->x = 0.0f;
+						
+					} else if (dt < _parameters.sid_trim_time_b + actual_ramp_time && actual_ramp_time > 0.1f) {
+						float progress = (dt - _parameters.sid_trim_time_b) /actual_ramp_time;
+						manual->x = _patameters.sid_amplutude * (1.0f - progress);
+						
+					} else if (dt < _parameters.sid_trim_time_b + actual_ramp_time + parameters.sid_on_time && actual_ramp_time > 0.1f) {
+						float progress = (dt - _parameters.sid_trim_time_b - actual_ramp_time - _paramters.sid_on_time) / actual_ramp_time;
+						manual->x = _parameters.sid_amplitude * (1.0f - progress);
+						
+					} else {
+						manual->x= _parameters.sid_amplitude;
+					}
+					
+					break;
+					
+					// step in yaw
+				case 3:
+		
+	        
 int
 Sensors::start()
 {
