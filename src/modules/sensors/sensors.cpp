@@ -2594,7 +2594,7 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 						
 					} else if (dt < _parameters.sid_trim_time_b + actual_ramp_time && actual_ramp_time > 0.1f) {
 						float progress = (dt - _parameters.sid_trim_time_b) /actual_ramp_time;
-						manual->x = _patameters.sid_amplutude * (1.0f - progress);
+						manual->x = _parameters.sid_amplutude * (1.0f - progress);
 						
 					} else if (dt < _parameters.sid_trim_time_b + actual_ramp_time + parameters.sid_on_time && actual_ramp_time > 0.1f) {
 						float progress = (dt - _parameters.sid_trim_time_b - actual_ramp_time - _paramters.sid_on_time) / actual_ramp_time;
