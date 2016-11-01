@@ -2646,7 +2646,7 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 					} else {
 						float progress = (dt - _parameters.sid_trim_time_b) / _parameters.sid_on_time;
 						float current_freq = _parameters.sid_start_freq + (_parameters.sid_stop_freq - _parameters.sid_start_freq) * progress;
-						manual->y = _parameters.sid_amplitude * sin(tau * current_freq * (dt - _parameters.sid_trim_time_b));
+						manual->y = _parameters.sid_amplitude * sinf(tau * current_freq * (dt - _parameters.sid_trim_time_b));
 						//warnx("setpoint: %.4f progress: %.4f current_freq %.4f", (double)manual->y, (double)progress, (double)current_freq, (double)dt);
 					}
 					
@@ -2654,7 +2654,67 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 					
 			// Chirp in pitch
 				case 6:
+					if (dt < _parameters.sid_trim_time_b || dt > _parameters.sid_on_time + _parameters.sid_trim_time_b) {
+						manual->x = 0.0f;
+						
+					} else {
+						float progress = (dt - _parameters.sid_trim_time_b) / _parameters.sid_on_time;
+						float current_freq = _parameters.sid_start_freq + (_parameters.sid_stop_freq - _parameters.sid_start_freq) * progress;
+						manual->x = _parameters.sid_amplitude * (float)sin(tau * current_freq * (dt - _parameters.sid_trim_time_b));
+						
+					}
 					
+					break;
+					
+			// Chirp in yaw
+				case 7:
+					if (dt < _parameters.sid_trim_time_b || dt > _parameters.sid_on_time + _parameters.sid_trim_time_b) {
+						manual->r = 0.0f;
+						
+					} else {
+						float progress = (dt - _parameters.sid_trim_time_b) / _parameters.sid_on_time;
+						float current_freq = _parameters.sid_start_freq + (_parameters.sid_stop_freq - _parameters.sid_start_freq) * progress;
+						manual->r = _parameters.sid_amplitude * (float)sin(tau * current_freq * (dt - _parameters.sid_trim_time_b));
+						
+					}
+					
+					break;
+					
+			// 2-1-1 in roll
+				case 8:
+					if (dt < _parameters.sid_trim_time_b || dt > _parameters.sid_on_time + _parameters.sid_trim_time_b) {
+						manual->y = 0.0f;
+						
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.5f) {
+						manual->y = _parameters.sid_amplitude;
+						
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.75f) {
+						manual->y = (-1.0f) * _parameters.sid_amplitude;
+						
+					} else {
+						manual->y = _parameters.sid_amplitude;
+					}
+					
+					break;
+					
+			// 2-1-1 in pitch
+				case 9:
+					if (dt < _parameters.sid_trim_time_b || dt > _parameters.sid_on_time + _parameters.sid_trim_time_b) {
+						manual->x = 0.0f;
+						
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.5f) {
+						manual->x = )parameters.sid_amplitude;
+						
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.75f) {
+						manual->x = (-1.0f)*_parameters.sid_amplitude;
+						
+					} else {
+						manual ->x = _parameters.sid_amplitude;
+					}
+					
+					break;
+					
+			// 2-1-1 in yaw
 		
 	        
 int
