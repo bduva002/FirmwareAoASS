@@ -2572,7 +2572,7 @@ PARAM_DEFINE_INT32(RC_MAP_TRANS_SW, 0);
  */
 PARAM_DEFINE_INT32(RC_MAP_GEAR_SW, 0);
 
-/** //ADDED BY DEAFRO
+/**
 * System identification switch channel mapping
 *
 * @min 0
@@ -2598,7 +2598,7 @@ PARAM_DEFINE_INT32(RC_MAP_GEAR_SW, 0);
 * @value 17 Channel 17
 * @value 18 Channel 18
 */
-PARAM_DEFINE_INT32(RC_MAP_SYSID_SW, 0) //DEAFRO CHANGES END
+PARAM_DEFINE_INT32(RC_MAP_SYSID_SW, 0);
   
 /**
  * AUX1 Passthrough RC Channel
@@ -3051,7 +3051,7 @@ PARAM_DEFINE_FLOAT(RC_TRANS_TH, 0.25f);
 PARAM_DEFINE_FLOAT(RC_GEAR_TH, 0.25f);
 
 /**
- * Threshold for the system identification transition switch //ADDED BY DEAFRO
+ * Threshold for the system identification transition switch
  *
  * 0-1 indicate where in the full channel range the threshold sits
  *          0 : min
