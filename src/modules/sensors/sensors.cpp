@@ -2206,8 +2206,8 @@ Sensors::rc_poll()
 						   _parameters.rc_trans_th, _parameters.rc_trans_inv);
 			manual.gear_switch = get_rc_sw2pos_position(rc_channels_s::RC_CHANNELS_FUNCTION_GEAR,
 					     _parameters.rc_gear_th, _parameters.rc_gear_inv);
-			manual.sysid_switch = get_rc_sw2pos_position(rc_channels_s::RC_CHANNELS_FUNCTION_SYSIDSWITCH, 
-								     _parameters.rc_parameters.rc_sysid_inv);
+			manual.sysid_switch = get_rc_sw2pos_position(rc_channels_s::RC_CHANNELS_FUNCTION_SYSIDSWITCH, _parameters.rc_sysid_th,
+								    _parameters.rc_sysid_inv);
 			
 			/* Check for sysID manoeuvres */
 			check_sysid_manoeuvre(&manual);
