@@ -2566,7 +2566,7 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 		float dt = static_cast<float>(hrt_absolute_time() - starting_time) / 1e6f; //calculate dt in seconds
 		float actual_ramp_time = fabsf(_parameters.sid_amplitude) * _parameters.sid_ramp_slope;
 		
-		if (dt > _parameters.sid_on_time + _parameters.sid_trim_time_b + _parameters_sid_trim_time_a + 2 * actual_ramp_time) {
+		if (dt > _parameters.sid_on_time + _parameters.sid_trim_time_b + _parameters.sid_trim_time_a + 2 * actual_ramp_time) {
 			is_doing_manoeuvre = false;
 			
 		} else {
