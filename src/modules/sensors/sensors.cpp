@@ -2589,7 +2589,7 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 			//Step in pitch
 				case 2:
 					if (dt < _parameters.sid_trim_time_b
-					    || dt > _paramters.sid_on_time + _parameters.sid_trim_time_b + 2.0f * actual_ramp_time) {
+					    || dt > _parameters.sid_on_time + _parameters.sid_trim_time_b + 2.0f * actual_ramp_time) {
 						manual->x = 0.0f;
 						
 					} else if (dt < _parameters.sid_trim_time_b + actual_ramp_time && actual_ramp_time > 0.1f) {
