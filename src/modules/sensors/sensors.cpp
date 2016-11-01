@@ -2715,7 +2715,32 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 					break;
 					
 			// 2-1-1 in yaw
+				case 10:
+					if (dt < _parameters.sid_trim_time_b || dt > _parameters.sid_on_time + _parameters.sid_trim_time_b) {
+						manual->r = 0.0f;
+						
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.5f) {
+						manual->r = )parameters.sid_amplitude;
+						
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.75f) {
+						manual->r = (-1.0f)*_parameters.sid_amplitude;
+						
+					} else {
+						manual ->r = _parameters.sid_amplitude;
+					}
+					
+					break;
+					
+				default:
+					is_doing)manoeuvre = false;
+					break;
+			}
+		}
 		
+	}
+	
+	_prev_sysid_sw_pos = manual->sysid_switch;
+}	// END OF CHANGES	
 	        
 int
 Sensors::start()
