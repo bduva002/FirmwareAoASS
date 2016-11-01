@@ -259,7 +259,7 @@ private:
 	struct differential_pressure_s _diff_pres;
 	struct airspeed_s _airspeed;
 	struct rc_parameter_map_s _rc_parameter_map;
-	struct vehicle_control_mode_s vcontrol_mode;
+	//struct vehicle_control_mode_s vcontrol_mode;
 	float _param_rc_values[rc_parameter_map_s::RC_PARAM_MAP_NCHAN];	/**< parameter values for RC control */
 
 	math::Matrix<3, 3>	_board_rotation;	/**< rotation matrix for the orientation that the board is mounted */
