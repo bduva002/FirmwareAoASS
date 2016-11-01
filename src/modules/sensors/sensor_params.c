@@ -2598,7 +2598,7 @@ PARAM_DEFINE_INT32(RC_MAP_GEAR_SW, 0);
 * @value 17 Channel 17
 * @value 18 Channel 18
 */
-PARAM_DEFINE_INIT32(RC_MAP_SYSID_SW, 0) //DEAFRO CHANGES END
+PARAM_DEFINE_INT32(RC_MAP_SYSID_SW, 0) //DEAFRO CHANGES END
   
 /**
  * AUX1 Passthrough RC Channel
@@ -3339,7 +3339,7 @@ PARAM_DEFINE_FLOAT(SID_AMPLITUDE, 0.3f);
 /**
 * Define the active time of the sysID manoeuvre
 *
-* @min 9
+* @min 0
 * @max 15
 * @unit seconds
 * @decimal 1
