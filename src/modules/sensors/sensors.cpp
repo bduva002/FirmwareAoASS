@@ -2572,18 +2572,19 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 		if (dt > _parameters.sid_on_time + _parameters.sid_trim_time_b + _parameters_sid_trim_time_a + 2 * actual_ramp_time) {
 			is_doing_manoeuvre = false;
 			
-		}else {
+		} else {
 			switch (_parameters.sid_manoeuvre) {
 			//Step in roll
 				case 1:
 					if (dt < _parameters.sid_trim_time_b
 					    || dt > _parameters.sid_on_time + _parameters.sid_trim_time_b + 2.0f * actual_ramp_time) {
 						manual->y = 0.0f;
+						
 					} else if (dt < _parameters.sid_trim_time_b + actual_ramp_time && actual_ramp_time > 0.1f) {
-						float progress = (dt - _parameters.dis_trim_time_b) / actual_ramp_time;
+						float progress = (dt - _parameters.sid_trim_time_b) / actual_ramp_time;
 						manual->y = _parameters.sid_amplitude * (1.0f - progress);
 						
-					}else {
+					} else {
 						manual->y = _parameters.sid_amplitude;
 					}
 					
@@ -2591,7 +2592,7 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 			//Step in pitch
 				case 2:
 					if (dt < _parameters.sid_trim_time_b
-					    || dt > _paramters.sid_on_time + _parameters.sid_tim_time_b + 2.0f * actual_ramp_time) {
+					    || dt > _paramters.sid_on_time + _parameters.sid_trim_time_b + 2.0f * actual_ramp_time) {
 						manual->x = 0.0f;
 						
 					} else if (dt < _parameters.sid_trim_time_b + actual_ramp_time && actual_ramp_time > 0.1f) {
@@ -2632,7 +2633,7 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 					if (dt < _parameters.sid_trim_time_b || dt > _parameters.sid_on_time + _parameters.sid_trim_time_b) {
 						manual->z = 0.5f;
 						
-					}else {
+					} else {
 						manual->z = fabsf(_parameters.sid_amplitude); //Absolute value since throttle is 0->1
 					}
 					
@@ -2703,13 +2704,13 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 						manual->x = 0.0f;
 						
 					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.5f) {
-						manual->x = )parameters.sid_amplitude;
+						manual->x = _parameters.sid_amplitude;
 						
 					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.75f) {
 						manual->x = (-1.0f)*_parameters.sid_amplitude;
 						
 					} else {
-						manual ->x = _parameters.sid_amplitude;
+						manual->x = _parameters.sid_amplitude;
 					}
 					
 					break;
@@ -2720,19 +2721,19 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 						manual->r = 0.0f;
 						
 					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.5f) {
-						manual->r = )parameters.sid_amplitude;
+						manual->r = _parameters.sid_amplitude;
 						
 					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.75f) {
 						manual->r = (-1.0f)*_parameters.sid_amplitude;
 						
 					} else {
-						manual ->r = _parameters.sid_amplitude;
+						manual->r = _parameters.sid_amplitude;
 					}
 					
 					break;
 					
 				default:
-					is_doing)manoeuvre = false;
+					is_doing_manoeuvre = false;
 					break;
 			}
 		}
