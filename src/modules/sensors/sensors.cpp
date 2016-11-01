@@ -259,7 +259,7 @@ private:
 	struct differential_pressure_s _diff_pres;
 	struct airspeed_s _airspeed;
 	struct rc_parameter_map_s _rc_parameter_map;
-	struct vehicle_control_mode_s vcontrol_mode; // ADDED BY DEAFRO
+	struct vehicle_control_mode_s vcontrol_mode;
 	float _param_rc_values[rc_parameter_map_s::RC_PARAM_MAP_NCHAN];	/**< parameter values for RC control */
 
 	math::Matrix<3, 3>	_board_rotation;	/**< rotation matrix for the orientation that the board is mounted */
@@ -308,7 +308,7 @@ private:
 		int rc_map_kill_sw;
 		int rc_map_trans_sw;
 		int rc_map_gear_sw;
-		int rc_map_sysid_sw;  // ADDED BY DEAFRO
+		int rc_map_sysid_sw;
 
 		int rc_map_flaps;
 
@@ -334,7 +334,7 @@ private:
 		float rc_killswitch_th;
 		float rc_trans_th;
 		float rc_gear_th;
-		float rc_sysid_th; // ADDED BY DEAFRO
+		float rc_sysid_th;
 		bool rc_assist_inv;
 		bool rc_auto_inv;
 		bool rc_rattitude_inv;
@@ -346,7 +346,7 @@ private:
 		bool rc_killswitch_inv;
 		bool rc_trans_inv;
 		bool rc_gear_inv;
-		bool rc_sysid_inv; // ADDED BY DEAFRO
+		bool rc_sysid_inv;
 
 		float battery_voltage_scaling;
 		float battery_current_scaling;
@@ -359,7 +359,7 @@ private:
 
 		float vibration_warning_threshold;
 		
-		int sid_manoeuvre; // ADDED BY DEAFRO
+		int sid_manoeuvre;
 		float sid_amplitude;
 		float sid_on_time;
 		float sid_trim_time_b;
@@ -396,7 +396,7 @@ private:
 		param_t rc_map_kill_sw;
 		param_t rc_map_trans_sw;
 		param_t rc_map_gear_sw;
-		param_t rc_map_sysid_sw; // ADDED BY DEAFRO
+		param_t rc_map_sysid_sw;
 
 		param_t rc_map_flaps;
 
@@ -426,7 +426,7 @@ private:
 		param_t rc_killswitch_th;
 		param_t rc_trans_th;
 		param_t rc_gear_th;
-		param_t rc_sysid_th; // ADDED BY DEAFRO
+		param_t rc_sysid_th;
 
 		param_t battery_voltage_scaling;
 		param_t battery_current_scaling;
@@ -443,7 +443,7 @@ private:
 
 		param_t vibe_thresh; /**< vibration threshold */
 
-		param_t sid_manoeuvre; //ADDED BY DEAFRO
+		param_t sid_manoeuvre;
 		param_t sid_amplitude;
 		param_t sid_on_time;
 		param_t sid_trim_time_b;
@@ -582,7 +582,7 @@ private:
 	 */
 	void		task_main();
 	
-	/** //ADDED BY DEAFRO
+	/**
 	* Check if we shall perform sysID manoeuvres
 	*/
 	void check_sysid_manoeuvre(manual_control_setpoint_s *manual);
@@ -691,7 +691,7 @@ Sensors::Sensors() :
 	_parameter_handles.rc_map_kill_sw = param_find("RC_MAP_KILL_SW");
 	_parameter_handles.rc_map_trans_sw = param_find("RC_MAP_TRANS_SW");
 	_parameter_handles.rc_map_gear_sw = param_find("RC_MAP_GEAR_SW");
-	_parameter_handles.rc_map_sysid_sw = param_find("RC_MAP_SYSID_SW"); // ADDED BY DEAFRO
+	_parameter_handles.rc_map_sysid_sw = param_find("RC_MAP_SYSID_SW");
 
 	_parameter_handles.rc_map_aux1 = param_find("RC_MAP_AUX1");
 	_parameter_handles.rc_map_aux2 = param_find("RC_MAP_AUX2");
@@ -722,7 +722,7 @@ Sensors::Sensors() :
 	_parameter_handles.rc_killswitch_th = param_find("RC_KILLSWITCH_TH");
 	_parameter_handles.rc_trans_th = param_find("RC_TRANS_TH");
 	_parameter_handles.rc_gear_th = param_find("RC_GEAR_TH");
-	_parameter_handles.rc_sysid_th = param_find("RC_SYSID_TH"); //ADDED BY DEAFRO
+	_parameter_handles.rc_sysid_th = param_find("RC_SYSID_TH");
 
 
 	/* Differential pressure offset */
@@ -749,7 +749,7 @@ Sensors::Sensors() :
 
 	_parameter_handles.vibe_thresh = param_find("ATT_VIBE_THRESH");
 		
-	/* SysID Params */ // ADDED BY DEAFRO
+	/* SysID Params */
 	_parameter_handles.sid_manoeuvre = param_find("SID_MANOEUVRE");
 	_parameter_handles.sid_amplitude = param_find("SID_AMPLITUDE");
 	_parameter_handles.sid_on_time = param_find("SID_ON_TIME");
@@ -916,7 +916,7 @@ Sensors::parameters_update()
 
 	if (param_get(_parameter_handles.rc_map_sysid_sw, &(_parameters.rc_map_sysid_sw)) != OK) {
 		warnx("%s", paramerr);
-	} // ADDED BY DEAFRO
+	}
 	
 	if (param_get(_parameter_handles.rc_map_flaps, &(_parameters.rc_map_flaps)) != OK) {
 		PX4_WARN("%s", paramerr);
@@ -968,7 +968,7 @@ Sensors::parameters_update()
 	param_get(_parameter_handles.rc_gear_th, &(_parameters.rc_gear_th));
 	_parameters.rc_gear_inv = (_parameters.rc_gear_th < 0);
 	_parameters.rc_gear_th = fabs(_parameters.rc_gear_th);
-	_param_get(_parameter_handles.rc_sysid_th, &(_parameters.rc_sysid_th)); //ADDED BY DEAFRO
+	_param_get(_parameter_handles.rc_sysid_th, &(_parameters.rc_sysid_th));
 	_parameters.rc_sysid_inv = (_parameters.rc_sysid_th < 0);
 	_parameters.rc_sysid_th = fabs(_parameters.rc_sysid_th);
 
@@ -988,7 +988,7 @@ Sensors::parameters_update()
 	_rc.function[rc_channels_s::RC_CHANNELS_FUNCTION_KILLSWITCH] = _parameters.rc_map_kill_sw - 1;
 	_rc.function[rc_channels_s::RC_CHANNELS_FUNCTION_TRANSITION] = _parameters.rc_map_trans_sw - 1;
 	_rc.function[rc_channels_s::RC_CHANNELS_FUNCTION_GEAR] = _parameters.rc_map_gear_sw - 1;
-	_rc.function[rc_channels_s::RC_CHANNELS_FUNCTION_SYSIDSWITCH] = _parameters.rc_map_sysid_sw -1; // ADDED BY DEAFRO
+	_rc.function[rc_channels_s::RC_CHANNELS_FUNCTION_SYSIDSWITCH] = _parameters.rc_map_sysid_sw -1;
 
 	_rc.function[rc_channels_s::RC_CHANNELS_FUNCTION_FLAPS] = _parameters.rc_map_flaps - 1;
 
@@ -1094,7 +1094,7 @@ Sensors::parameters_update()
 
 	_board_rotation = board_rotation_offset * _board_rotation;
 	
-	param_get(_parameter_handles.sid_manoeuvre, &(_parameters.sid_manoeuvre)); //ADDED BY DEAFRO
+	param_get(_parameter_handles.sid_manoeuvre, &(_parameters.sid_manoeuvre));
 	param_get(_parameter_handles.sid_amplitude, &(_parameters.sid_amplitude));
 	param_get(_parameter_handles.sid_on_time, &(_parameters.sid_on_time));
 	param_get(_parameter_handles.sid_trim_time_b, &(_parameters.sid_trim_time_b));
@@ -1419,7 +1419,7 @@ Sensors::diff_pres_poll(struct sensor_combined_s &raw)
 void
 Sensors::vehicle_control_mode_poll()
 {
-	bool vcontrol_mode_updated; //Line 1422 REMOVED BY DEAFRO
+	bool vcontrol_mode_updated;
 
 	/* Check HIL state if vehicle control mode has changed */
 	orb_check(_vcontrol_mode_sub, &vcontrol_mode_updated);
@@ -2206,9 +2206,9 @@ Sensors::rc_poll()
 			manual.gear_switch = get_rc_sw2pos_position(rc_channels_s::RC_CHANNELS_FUNCTION_GEAR,
 					     _parameters.rc_gear_th, _parameters.rc_gear_inv);
 			manual.sysid_switch = get_rc_sw2pos_position(rc_channels_s::RC_CHANNELS_FUNCTION_SYSIDSWITCH, 
-								     _parameters.rc_parameters.rc_sysid_inv); //ADDED BY DEAFRO
+								     _parameters.rc_parameters.rc_sysid_inv);
 			
-			/* Check for sysID manoeuvres */ //ADDED BY DEAFRO
+			/* Check for sysID manoeuvres */
 			check_sysid_manoeuvre(&manual);
 
 			/* publish manual_control_setpoint topic */
@@ -2546,7 +2546,7 @@ Sensors::task_main()
 	px4_task_exit(ret);
 }
 
-void  //ADDED BY DEAFRO
+void
 Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 {
 	static bool is_doing_manoeuvre = false;
