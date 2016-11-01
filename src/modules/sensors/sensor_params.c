@@ -2598,7 +2598,7 @@ PARAM_DEFINE_INT32(RC_MAP_GEAR_SW, 0);
 * @value 17 Channel 17
 * @value 18 Channel 18
 */
-PARAM_DEFINE_INT32(RC_MAP_SYSID_SW, 0);
+PARAM_DEFINE_INT32(RC_MAP_SYSID_SW, 6);
   
 /**
  * AUX1 Passthrough RC Channel
@@ -3324,7 +3324,7 @@ PARAM_DEFINE_FLOAT(MOT_SLEW_MAX, 0.0f);
 * @value 10 2-1-1 in yaw
 * @group SysID
 */
-PARAM_DEFINE_INT32(SID_MANOEUVRE, 0);
+PARAM_DEFINE_INT32(SID_MANOEUVRE, 9);
 
 /**
 * Define the amplitude of the sysID manoeuvre
@@ -3334,7 +3334,7 @@ PARAM_DEFINE_INT32(SID_MANOEUVRE, 0);
 * @decimal 1
 * @group SysID
 */
-PARAM_DEFINE_FLOAT(SID_AMPLITUDE, 0.3f);
+PARAM_DEFINE_FLOAT(SID_AMPLITUDE, 1.0f);
 
 /**
 * Define the active time of the sysID manoeuvre
@@ -3345,7 +3345,7 @@ PARAM_DEFINE_FLOAT(SID_AMPLITUDE, 0.3f);
 * @decimal 1
 * @group SysID
 */
-PARAM_DEFINE_FLOAT(SID_ON_TIME, 3.0f);
+PARAM_DEFINE_FLOAT(SID_ON_TIME, 4.0f);
 
 /**
 * Define the trim time before the sysID manoeuvre
