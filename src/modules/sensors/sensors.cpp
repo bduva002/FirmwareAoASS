@@ -1419,6 +1419,7 @@ Sensors::diff_pres_poll(struct sensor_combined_s &raw)
 void
 Sensors::vehicle_control_mode_poll()
 {
+	struct vehicle_control_mode_s vcontrol_mode;
 	bool vcontrol_mode_updated;
 
 	/* Check HIL state if vehicle control mode has changed */
