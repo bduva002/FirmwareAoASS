@@ -2574,7 +2574,7 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 			
 		}else {
 			switch (_parameters.sid_manoeuvre) {
-			//step in roll
+			//Step in roll
 				case 1:
 					if (dt < _parameters.sid_trim_time_b
 					    || dt > _parameters.sid_on_time + _parameters.sid_trim_time_b + 2.0f * actual_ramp_time) {
@@ -2588,7 +2588,7 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 					}
 					
 					break;
-			//step in pitch
+			//Step in pitch
 				case 2:
 					if (dt < _parameters.sid_trim_time_b
 					    || dt > _paramters.sid_on_time + _parameters.sid_tim_time_b + 2.0f * actual_ramp_time) {
@@ -2608,8 +2608,53 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 					
 					break;
 					
-					// step in yaw
+			// Step in yaw
 				case 3:
+					if (dt < _parameters.sid_trim_time_b || dt > _parameters.sid_on_time + _parameters.sid_trim_time_b + 2.0f * actual_ramp_time) {
+						manual->r = 0.0f;
+						
+					} else if (dt < _parameters.sid_trim_time_b + actual_ramp_time && actual_ramp_time > 0.1f) {
+						float progress = (dt - _parameters.sid_trim_time_b) / actual_ramp_time;
+						manual->r = _parameters.sid_amplitude * progress;
+						
+					} else if (dt > _parameters.sid_trim_time_b + actual_ramp_time + _parameters.sid_on_time && actual_ramp_time > 0.1f) {
+						float progress = (dt - _parameters.sid_trim_time_b - actual_ramp_time - _parameters.sid_on_time) / actual_ramp_time;
+						manual->r = _parameters.sid_amplitude * (1.0f - progress);
+						
+					} else {
+						manual->r = _parameters.sid_amplitude;
+					}
+					
+					break;
+					
+			// Step in throttle
+				case 4: 
+					if (dt < _parameters.sid_trim_time_b || dt > _parameters.sid_on_time + _parameters.sid_trim_time_b) {
+						manual->z = 0.5f;
+						
+					}else {
+						manual->z = fabsf(_parameters.sid_amplitude); //Absolute value since throttle is 0->1
+					}
+					
+					break;
+					
+			// Chirp in roll
+				case 5:
+					if (dt < _parameters.sid_trim_time_b || dt > _parameters.sid_on_time + _parameters.sid_trim_time_b) {
+						manual->y = 0.0f;
+						
+					} else {
+						float progress = (dt - _parameters.sid_trim_time_b) / _parameters.sid_on_time;
+						float current_freq = _parameters.sid_start_freq + (_parameters.sid_stop_freq - _parameters.sid_start_freq) * progress;
+						manual->y = _parameters.sid_amplitude * sin(tau * current_freq * (dt - _parameters.sid_trim_time_b));
+						//warnx("setpoint: %.4f progress: %.4f current_freq %.4f", (double)manual->y, (double)progress, (double)current_freq, (double)dt);
+					}
+					
+					break;
+					
+			// Chirp in pitch
+				case 6:
+					
 		
 	        
 int
