@@ -915,7 +915,7 @@ Sensors::parameters_update()
 	}
 
 	if (param_get(_parameter_handles.rc_map_sysid_sw, &(_parameters.rc_map_sysid_sw)) != OK) {
-		warnx("%s",paramerr);
+		warnx("%s", paramerr);
 	} // ADDED BY DEAFRO
 	
 	if (param_get(_parameter_handles.rc_map_flaps, &(_parameters.rc_map_flaps)) != OK) {
