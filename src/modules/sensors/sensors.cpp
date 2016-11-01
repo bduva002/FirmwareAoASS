@@ -968,7 +968,7 @@ Sensors::parameters_update()
 	param_get(_parameter_handles.rc_gear_th, &(_parameters.rc_gear_th));
 	_parameters.rc_gear_inv = (_parameters.rc_gear_th < 0);
 	_parameters.rc_gear_th = fabs(_parameters.rc_gear_th);
-	_param_get(_paramter_handles.rc_sysid_th, &(_parameters.rc_sysid_th)); //ADDED BY DEAFRO
+	_param_get(_parameter_handles.rc_sysid_th, &(_parameters.rc_sysid_th)); //ADDED BY DEAFRO
 	_parameters.rc_sysid_inv = (_parameters.rc_sysid_th < 0);
 	_parameters.rc_sysid_th = fabs(_parameters.rc_sysid_th);
 
