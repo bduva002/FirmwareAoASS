@@ -3345,7 +3345,7 @@ PARAM_DEFINE_FLOAT(SID_AMPLITUDE, 1.0f);
 * @decimal 1
 * @group SysID
 */
-PARAM_DEFINE_FLOAT(SID_ON_TIME, 4.0f);
+PARAM_DEFINE_FLOAT(SID_ON_TIME, 2.0f);
 
 /**
 * Define the trim time before the sysID manoeuvre
