@@ -259,7 +259,7 @@ private:
 	struct differential_pressure_s _diff_pres;
 	struct airspeed_s _airspeed;
 	struct rc_parameter_map_s _rc_parameter_map;
-	//struct vehicle_control_mode_s vcontrol_mode;
+	struct vehicle_control_mode_s vcontrol_mode;
 	float _param_rc_values[rc_parameter_map_s::RC_PARAM_MAP_NCHAN];	/**< parameter values for RC control */
 
 	math::Matrix<3, 3>	_board_rotation;	/**< rotation matrix for the orientation that the board is mounted */
@@ -1419,7 +1419,7 @@ Sensors::diff_pres_poll(struct sensor_combined_s &raw)
 void
 Sensors::vehicle_control_mode_poll()
 {
-	struct vehicle_control_mode_s vcontrol_mode;
+	//struct vehicle_control_mode_s vcontrol_mode;
 	bool vcontrol_mode_updated;
 
 	/* Check HIL state if vehicle control mode has changed */
@@ -2725,6 +2725,126 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 						
 					} else {
 						manual->r = _parameters.sid_amplitude;
+					}
+					
+					break;
+					
+			// 2-1-1-2 in roll
+				case 11:
+					if (dt < _parameters.sid_trim_time_b || dt > _parameters.sid_on_time + _parameters.sid_trim_time_b) {
+						manual->y = 0.0f;
+						
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.33f) {
+						manual->y = _parameters.sid_amplitude;
+					
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.5f) {
+						manual->y = (-1.0)*_parameters.sid_amplitude;
+						
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.67f) {
+						manual->y = _parameters.sid_amplitude;
+						
+					} else {
+						manual->y = (-1.0)_parameters.sid_amplitude;
+					}
+					
+					break;
+					
+			// 2-1-1-2 in pitch
+				case 12:
+					if (dt < _parameters.sid_trim_time_b || dt > _parameters.sid_on_time + _parameters.sid_trim_time_b) {
+						manual->x = 0.0f;
+						
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.33f) {
+						manual->x = _parameters.sid_amplitude;
+					
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.5f) {
+						manual->x = (-1.0)*_parameters.sid_amplitude;
+						
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.67f) {
+						manual->x = _parameters.sid_amplitude;
+						
+					} else {
+						manual->x = (-1.0)_parameters.sid_amplitude;
+					}
+					
+					break;	
+					
+			// 2-1-1-2 in yaw
+				case 13:
+					if (dt < _parameters.sid_trim_time_b || dt > _parameters.sid_on_time + _parameters.sid_trim_time_b) {
+						manual->r = 0.0f;
+						
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.33f) {
+						manual->r = _parameters.sid_amplitude;
+					
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.5f) {
+						manual->r = (-1.0)*_parameters.sid_amplitude;
+						
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.67f) {
+						manual->r = _parameters.sid_amplitude;
+						
+					} else {
+						manual->r = (-1.0)_parameters.sid_amplitude;
+					}
+					
+					break;
+					
+			// 3-2-1-1 in roll
+				case 14:
+					if (dt < _parameters.sid_trim_time_b || dt > _parameters.sid_on_time + _parameters.sid_trim_time_b) {
+						manual->y = 0.0f;
+						
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.43f) {
+						manual->y = _parameters.sid_amplitude;
+					
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.71f) {
+						manual->y = (-1.0)*_parameters.sid_amplitude;
+						
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.86f) {
+						manual->y = _parameters.sid_amplitude;
+						
+					} else {
+						manual->y = (-1.0)_parameters.sid_amplitude;
+					}
+					
+					break;
+					
+			// 3-2-1-1 in pitch
+				case 15:
+					if (dt < _parameters.sid_trim_time_b || dt > _parameters.sid_on_time + _parameters.sid_trim_time_b) {
+						manual->x = 0.0f;
+						
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.43f) {
+						manual->x = _parameters.sid_amplitude;
+					
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.71f) {
+						manual->x = (-1.0)*_parameters.sid_amplitude;
+						
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.86f) {
+						manual->x = _parameters.sid_amplitude;
+						
+					} else {
+						manual->x = (-1.0)_parameters.sid_amplitude;
+					}
+					
+					break;	
+					
+			// 3-2-1-1 in yaw
+				case 16:
+					if (dt < _parameters.sid_trim_time_b || dt > _parameters.sid_on_time + _parameters.sid_trim_time_b) {
+						manual->r = 0.0f;
+						
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.43f) {
+						manual->r = _parameters.sid_amplitude;
+					
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.71f) {
+						manual->r = (-1.0)*_parameters.sid_amplitude;
+						
+					} else if (dt < _parameters.sid_trim_time_b + _parameters.sid_on_time * 0.86f) {
+						manual->r = _parameters.sid_amplitude;
+						
+					} else {
+						manual->r = (-1.0)_parameters.sid_amplitude;
 					}
 					
 					break;
