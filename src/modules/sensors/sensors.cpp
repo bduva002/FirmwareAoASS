@@ -2744,7 +2744,7 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 						manual->y = _parameters.sid_amplitude;
 						
 					} else {
-						manual->y = (-1.0f)_parameters.sid_amplitude;
+						manual->y = (-1.0f)*_parameters.sid_amplitude;
 					}
 					
 					break;
@@ -2764,7 +2764,7 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 						manual->x = _parameters.sid_amplitude;
 						
 					} else {
-						manual->x = (-1.0f)_parameters.sid_amplitude;
+						manual->x = (-1.0f)*_parameters.sid_amplitude;
 					}
 					
 					break;	
@@ -2784,7 +2784,7 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 						manual->r = _parameters.sid_amplitude;
 						
 					} else {
-						manual->r = (-1.0f)_parameters.sid_amplitude;
+						manual->r = (-1.0f)*_parameters.sid_amplitude;
 					}
 					
 					break;
@@ -2804,7 +2804,7 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 						manual->y = _parameters.sid_amplitude;
 						
 					} else {
-						manual->y = (-1.0f)_parameters.sid_amplitude;
+						manual->y = (-1.0f)*_parameters.sid_amplitude;
 					}
 					
 					break;
@@ -2824,7 +2824,7 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 						manual->x = _parameters.sid_amplitude;
 						
 					} else {
-						manual->x = (-1.0f)_parameters.sid_amplitude;
+						manual->x = (-1.0f)*_parameters.sid_amplitude;
 					}
 					
 					break;	
@@ -2844,7 +2844,7 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 						manual->r = _parameters.sid_amplitude;
 						
 					} else {
-						manual->r = (-1.0f)_parameters.sid_amplitude;
+						manual->r = (-1.0f)*_parameters.sid_amplitude;
 					}
 					
 					break;
