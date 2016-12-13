@@ -483,7 +483,7 @@ PARAM_DEFINE_FLOAT(EKF2_TAS_GATE, 3.0f);
  * @group EKF2
  * @boolean
  */
-PARAM_DEFINE_INT32(EKF2_REC_RPL, 0);
+PARAM_DEFINE_INT32(EKF2_REC_RPL, 1);
 
 /**
  * Integer bitmask controlling data fusion and aiding methods.
