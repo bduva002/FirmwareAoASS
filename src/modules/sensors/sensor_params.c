@@ -3310,7 +3310,7 @@ PARAM_DEFINE_FLOAT(MOT_SLEW_MAX, 0.0f);
 * Define the sysID manoeuvre
 *
 * @min 0
-* @max 16
+* @max 17
 * @value 0 Disabled
 * @value 1 Step/Ramp in roll
 * @value 2 Step/Ramp in pitch
@@ -3328,6 +3328,7 @@ PARAM_DEFINE_FLOAT(MOT_SLEW_MAX, 0.0f);
 * @value 14 3-2-1-1 in roll
 * @value 15 3-2-1-1 in pitch
 * @value 16 3-2-1-1 in yaw
+* @value 17 Hope 37
 * @group SysID
 */
 PARAM_DEFINE_INT32(SID_MANOEUVRE, 9);
