@@ -366,6 +366,8 @@ private:
 		float sid_trim_time_a;
 		float sid_start_freq;
 		float sid_stop_freq;
+		float sid_start_freq2;
+		float sid_stop_freq2;
 		float sid_ramp_slope;
 
 	}		_parameters;			/**< local copies of interesting parameters */
@@ -450,6 +452,8 @@ private:
 		param_t sid_trim_time_a;
 		param_t sid_start_freq;
 		param_t sid_stop_freq;
+		param_t sid_start_freq2;
+		param_t sid_stop_freq2;
 		param_t sid_ramp_slope;
 		
 	}		_parameter_handles;		/**< handles for interesting parameters */
@@ -757,6 +761,8 @@ Sensors::Sensors() :
 	_parameter_handles.sid_trim_time_a = param_find("SID_TRIM_TIME_A");
 	_parameter_handles.sid_start_freq = param_find("SID_START_FREQ");
 	_parameter_handles.sid_stop_freq = param_find("SID_STOP_FREQ");
+	_parameter_handles.sid_start_freq2 = param_find("SID_START_FREQ2");
+	_parameter_handles.sid_stop_freq2 = param_find("SID_STOP_FREQ2");	
 	_parameter_handles.sid_ramp_slope = param_find("SID_RAMP_SLOPE");
 
 	// These are parameters for which QGroundControl always expects to be returned in a list request.
@@ -1101,6 +1107,8 @@ Sensors::parameters_update()
 	param_get(_parameter_handles.sid_trim_time_a, &(_parameters.sid_trim_time_a));
 	param_get(_parameter_handles.sid_start_freq, &(_parameters.sid_start_freq));
 	param_get(_parameter_handles.sid_stop_freq, &(_parameters.sid_stop_freq));
+	param_get(_parameter_handles.sid_start_freq2, &(_parameters.sid_start_freq2));
+	param_get(_parameter_handles.sid_stop_freq2, &(_parameters.sid_stop_freq2));
 	param_get(_parameter_handles.sid_ramp_slope, &(_parameters.sid_ramp_slope));
 
 	/* update barometer qnh setting */
@@ -2650,6 +2658,7 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 					
 					break;
 					
+					
 			// Chirp in pitch
 				case 6:
 					if (dt < _parameters.sid_trim_time_b || dt > _parameters.sid_on_time + _parameters.sid_trim_time_b) {
@@ -2852,6 +2861,29 @@ Sensors::check_sysid_manoeuvre(manual_control_setpoint_s *manual)
 				default:
 					is_doing_manoeuvre = false;
 					break;
+					
+					
+					// Hope 37
+				case 17:
+					if (dt < _parameters.sid_trim_time_b || dt > _parameters.sid_on_time + _parameters.sid_trim_time_b) {
+						manual->y = 0.0f;
+						
+					} else {
+						float progress = (dt - _parameters.sid_trim_time_b) / _parameters.sid_on_time;
+						float current_freq = _parameters.sid_start_freq + (_parameters.sid_stop_freq - _parameters.sid_start_freq) * progress;
+						float current_freq2 = _parameters.sid_start_freq2 + (_parameters.sid_stop_freq2 - _parameters.sid_start_freq2) * progress;
+						manual->y = _parameters.sid_amplitude * sinf(tau * current_freq * (dt - _parameters.sid_trim_time_b)) + _parameters.sid_amplitude * sinf(tau * current_freq2 * (dt - _parameters.sid_trim_time_b));
+						//warnx("setpoint: %.4f progress: %.4f current_freq %.4f", (double)manual->y, (double)progress, (double)current_freq, (double)dt);
+					}
+					
+					break;
+					
+					
+					
+					
+					
+					
+					
 			}
 		}
 		
