@@ -3393,6 +3393,17 @@ PARAM_DEFINE_FLOAT(SID_TRIM_TIME_A, 1.0f);
 PARAM_DEFINE_FLOAT(SID_START_FREQ, 1.0f);
 
 /**
+* Define the start frequency of the sysID manoeuvre
+*
+* @min 0.1
+* @max 5
+* @unit Hz
+* @decimal 1
+* @group SysID
+*/
+PARAM_DEFINE_FLOAT(SID_START_FREQ2, 1.0f);
+
+/**
 * Define the Stop frequency of the sysID manoeuvre
 *
 * @min 0.1
@@ -3402,6 +3413,17 @@ PARAM_DEFINE_FLOAT(SID_START_FREQ, 1.0f);
 * @group SysID
 */
 PARAM_DEFINE_FLOAT(SID_STOP_FREQ, 1.0f);
+
+/**
+* Define the Stop frequency of the sysID manoeuvre
+*
+* @min 0.1
+* @max 5
+* @unit Hz
+* @decimal 1
+* @group SysID
+*/
+PARAM_DEFINE_FLOAT(SID_STOP_FREQ2, 1.0f);
 
 /**
 * Define the ramp slope. (1/rate)
